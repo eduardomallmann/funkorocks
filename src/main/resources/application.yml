@@ -1,0 +1,30 @@
+# Basic application info
+info:
+  app:
+    name: ShoppingCart Backend
+    description: Backend service in spring-boot for the Funko Rocks ShoppingCart App.
+    version: 0.0.1
+
+# Spring configuration
+spring:
+  application:
+    name: shoppingcart-backend
+# Configuring spring session
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+
+# Server configuration
+server:
+  port: 8080
+  servlet:
+  # Configuring server session timeout
+    session:
+      timeout: 7m
+
+# Configuring actuator management
+management:
+  server:
+    port: 8081
+    address: 127.0.0.1
