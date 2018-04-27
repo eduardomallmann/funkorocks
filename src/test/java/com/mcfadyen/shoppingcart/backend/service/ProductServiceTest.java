@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(SpringRunner.class)
-public class ProductServiceTests {
+public class ProductServiceTest {
 
     @TestConfiguration
     static class ProductServiceTestContextConfiguration {

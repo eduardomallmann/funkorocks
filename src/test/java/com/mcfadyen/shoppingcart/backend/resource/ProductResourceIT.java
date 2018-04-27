@@ -1,6 +1,7 @@
 package com.mcfadyen.shoppingcart.backend.resource;
 
 import com.mcfadyen.shoppingcart.backend.model.Product;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,17 @@ public class ProductResourceIT {
     @Autowired
     private TestRestTemplate restTemplate;
 
+    private ResponseEntity<List<Product>> result;
+
+    @Before
+    public void setUp() {
+        //given
+        result = restTemplate.exchange("/products", HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<Product>>() {});
+    }
+
     @Test
     public void whenRequestForProductsGet_thenShouldReturnInformationAboutProducts() {
-        //given
-        ResponseEntity<List<Product>> result = restTemplate.exchange("/products", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Product>>() {});
         //when
         Product lemmy = result.getBody().stream().filter(p -> p.getName().contains("Lemmy")).findAny().orElse(null);
         //then
@@ -42,9 +49,6 @@ public class ProductResourceIT {
 
     @Test
     public void whenRequestForProductsGet_thenShouldReturnArray() {
-        //given
-        ResponseEntity<List<Product>> result = restTemplate.exchange("/products", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Product>>() {});
         //then
         assertThat(result.getBody()).isNotNull();
         assertThat(result.getBody()).isInstanceOf(List.class);
@@ -53,18 +57,12 @@ public class ProductResourceIT {
 
     @Test
     public void whenRequestForProductsGet_thenShouldResponses200() {
-        //given
-        ResponseEntity<List<Product>> result = restTemplate.exchange("/products", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Product>>() {});
         //then
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
     public void whenRequestForProductsGet_thenShouldHasContentTypeJson() {
-        //given
-        ResponseEntity<List<Product>> result = restTemplate.exchange("/products", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Product>>() {});
         //then
         assertThat(result.getHeaders().containsKey("Content-Type")).isTrue();
         assertThat(result.getHeaders().getContentType()).hasToString((MediaType.APPLICATION_JSON_UTF8_VALUE));
