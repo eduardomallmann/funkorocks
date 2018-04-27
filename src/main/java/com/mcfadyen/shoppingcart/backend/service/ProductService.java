@@ -25,8 +25,8 @@ public class ProductService {
     static {
         products.add(new Product(String.valueOf(UUID.randomUUID()), "Joey Ramone - Ramones",
                 "https://images-na.ssl-images-amazon.com/images/I/41i3tE9rSlL.jpg", new BigDecimal(5.98)));
-        products.add(new Product(String.valueOf(UUID.randomUUID()), "Elton John",
-                "https://images-na.ssl-images-amazon.com/images/I/41-Cu54MYqL.jpg", new BigDecimal(10.30)));
+//        products.add(new Product(String.valueOf(UUID.randomUUID()), "Elton John",
+//                "https://images-na.ssl-images-amazon.com/images/I/41-Cu54MYqL.jpg", new BigDecimal(10.30)));
         products.add(new Product(String.valueOf(UUID.randomUUID()), "Jimi Hendrix",
                 "https://images-na.ssl-images-amazon.com/images/I/41Baiq1QkpL.jpg", new BigDecimal(8.10)));
         products.add(new Product(String.valueOf(UUID.randomUUID()), "Lemmy Kilmister - Motörhead",
