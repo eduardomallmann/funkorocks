@@ -1,5 +1,7 @@
 package com.mcfadyen.shoppingcart.backend.resource;
 
+import com.mcfadyen.shoppingcart.backend.exception.BusinessException;
+import com.mcfadyen.shoppingcart.backend.exception.ErrorMessage;
 import com.mcfadyen.shoppingcart.backend.model.CommerceItem;
 import com.mcfadyen.shoppingcart.backend.model.ShoppingCart;
 import com.mcfadyen.shoppingcart.backend.service.ShoppingCartService;
@@ -8,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -51,11 +54,12 @@ public class ShoppingCartResource {
      * @param product_id product unique identification
      * @param quantity   quantity units of product
      * @return the CommerceItem created/updated
-     * @throws Exception in case of the product not found
+     * @throws BusinessException in case of the product not found
      */
     @PostMapping(value = "/items", params = {"product_id", "quantity"})
     public ResponseEntity<CommerceItem> shoppingcartItemsPost(@RequestParam("product_id") String product_id,
-                                                              @RequestParam("quantity") Integer quantity) throws Exception {
+                                                              @RequestParam("quantity") Integer quantity)
+            throws BusinessException {
         return new ResponseEntity<>(this.shoppingCartService.addCommerceItem(product_id, quantity), HttpStatus.OK);
     }
 
@@ -65,12 +69,12 @@ public class ShoppingCartResource {
      * @param id           commerceitem identification inside the shoppingcart
      * @param shoppingCart shoppingcart from whom the commerceitem will be removed
      * @return Success response
-     * @throws Exception in case of failure
+     * @throws BusinessException in case of failure
      */
     @DeleteMapping("/items/{id}")
     public ResponseEntity shoppingcartItemsIdDelete(@PathVariable("id") String id,
                                                     @SessionAttribute("shoppingcart") ShoppingCart shoppingCart)
-            throws Exception {
+            throws BusinessException {
         // calls the service to remove the item
         Boolean result = this.shoppingCartService.removeCommerceItem(shoppingCart, id);
         // verifeis if it's succeed
@@ -79,7 +83,9 @@ public class ShoppingCartResource {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             // throw exception
-            throw new Exception();
+            throw new BusinessException(new ErrorMessage(HttpStatus.CONFLICT,
+                    "Item cannot be deleted", Collections.singletonList("The item with the id: "
+                    .concat(id).concat(" cannot be deleted, 'cause it wasn't found"))));
         }
     }
 

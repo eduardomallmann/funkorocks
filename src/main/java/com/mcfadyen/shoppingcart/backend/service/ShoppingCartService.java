@@ -1,11 +1,15 @@
 package com.mcfadyen.shoppingcart.backend.service;
 
+import com.mcfadyen.shoppingcart.backend.exception.BusinessException;
+import com.mcfadyen.shoppingcart.backend.exception.ErrorMessage;
 import com.mcfadyen.shoppingcart.backend.model.CommerceItem;
 import com.mcfadyen.shoppingcart.backend.model.ShoppingCart;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -64,9 +68,9 @@ public class ShoppingCartService {
      * @param product_id product unique identification
      * @param quantity   unit amount of the product
      * @return the CommerceItem created.
-     * @throws Exception in case of price not found
+     * @throws BusinessException in case of price not found
      */
-    public CommerceItem addCommerceItem(final String product_id, final Integer quantity) throws Exception {
+    public CommerceItem addCommerceItem(final String product_id, final Integer quantity) throws BusinessException {
         // instantiate the shoppingcart with the existent one
         ShoppingCart shoppingCart = this.findShoppingCart();
         // create the new CommerceItem
@@ -90,11 +94,14 @@ public class ShoppingCartService {
      * @param itemId       CommerceItem identification for the ShoppingCart
      * @param shoppingCart the shoppingcart that should have the item removed
      * @return boolean informing the success of the operation
+     * @throws BusinessException in case of the itemId wasn't found
      */
-    public boolean removeCommerceItem(final ShoppingCart shoppingCart, final String itemId) throws Exception {
+    public boolean removeCommerceItem(final ShoppingCart shoppingCart, final String itemId) throws BusinessException {
         // find the item to be removed
         CommerceItem item = shoppingCart.getItems().stream().filter(i -> i.getId().equals(itemId)).findFirst()
-                .orElseThrow(Exception::new);
+                .orElseThrow(() -> new BusinessException(new ErrorMessage(HttpStatus.CONFLICT,
+                        "Item not found", Collections.singletonList("The item with the id: "
+                        .concat(itemId).concat(" wasn't found")))));
         // remove the item and keeps the result of the operation
         boolean result = shoppingCart.getItems().remove(item);
         // updates the shoppingcart amount
@@ -113,10 +120,10 @@ public class ShoppingCartService {
      * @param product_id   product unique identifier
      * @param quantity     quantity of the product for the commerceitem
      * @return a new or updated CommerceItem
-     * @throws Exception if the product wasn't found
+     * @throws BusinessException if the product wasn't found
      */
     private CommerceItem getCommerceItem(final ShoppingCart shoppingCart, final String product_id,
-                                         final Integer quantity) throws Exception {
+                                         final Integer quantity) throws BusinessException {
         // searches the product in the current shoppingcart and get its commerceitem if exists
         CommerceItem commerceItem = shoppingCart.getItems().stream()
                 .filter(item -> item.getProduct_id().equals(product_id))

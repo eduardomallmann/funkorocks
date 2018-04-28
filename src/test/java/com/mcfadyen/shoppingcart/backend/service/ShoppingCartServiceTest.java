@@ -1,5 +1,6 @@
 package com.mcfadyen.shoppingcart.backend.service;
 
+import com.mcfadyen.shoppingcart.backend.exception.BusinessException;
 import com.mcfadyen.shoppingcart.backend.model.CommerceItem;
 import com.mcfadyen.shoppingcart.backend.model.Product;
 import com.mcfadyen.shoppingcart.backend.model.ShoppingCart;
@@ -73,7 +74,7 @@ public class ShoppingCartServiceTest {
     }
 
     @Test
-    public void whenAddCommerceItem_thenShouldReturnIt() throws Exception {
+    public void whenAddCommerceItem_thenShouldReturnIt() throws BusinessException {
         // when
         CommerceItem item = this.shoppingCartService.addCommerceItem(this.product_id, 5);
         BigDecimal amount = this.productService.findAllProducts().stream().filter(product -> product.getId()
@@ -87,7 +88,7 @@ public class ShoppingCartServiceTest {
     }
 
     @Test
-    public void whenRemoveCommerceItem_ThenReturnTrue() {
+    public void whenRemoveCommerceItem_ThenReturnTrue() throws BusinessException {
         // when
         Boolean result = this.shoppingCartService.removeCommerceItem(this.shoppingCart, this.commerceItemId);
         // then

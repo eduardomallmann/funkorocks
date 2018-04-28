@@ -1,10 +1,14 @@
 package com.mcfadyen.shoppingcart.backend.service;
 
+import com.mcfadyen.shoppingcart.backend.exception.BusinessException;
+import com.mcfadyen.shoppingcart.backend.exception.ErrorMessage;
 import com.mcfadyen.shoppingcart.backend.model.Product;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -102,11 +106,13 @@ public class ProductService {
      *
      * @param product_id product unique identification
      * @return bigdecimal with the price of the product
-     * @throws Exception in case of error during the search
+     * @throws BusinessException in case of error during the search
      */
-    public BigDecimal getProductPrice(final String product_id) throws Exception {
+    public BigDecimal getProductPrice(final String product_id) throws BusinessException {
         // find and return the product price of the informed id
         return products.stream().filter(product -> product.getId().equals(product_id)).map(Product::getPrice).findAny()
-                .orElseThrow(Exception::new);
+                .orElseThrow(() -> new BusinessException(new ErrorMessage(HttpStatus.CONFLICT,
+                        "Product not found", Collections.singletonList("The product with the id: "
+                        .concat(product_id).concat(" wasn't found")))));
     }
 }
