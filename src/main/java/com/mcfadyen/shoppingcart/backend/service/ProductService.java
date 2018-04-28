@@ -104,15 +104,15 @@ public class ProductService {
     /**
      * Method that find the price of the product by its id.
      *
-     * @param product_id product unique identification
+     * @param productId product unique identification
      * @return bigdecimal with the price of the product
      * @throws BusinessException in case of error during the search
      */
-    public BigDecimal getProductPrice(final String product_id) throws BusinessException {
+    public BigDecimal getProductPrice(final String productId) throws BusinessException {
         // find and return the product price of the informed id
-        return products.stream().filter(product -> product.getId().equals(product_id)).map(Product::getPrice).findAny()
+        return products.stream().filter(product -> product.getId().equals(productId)).map(Product::getPrice).findAny()
                 .orElseThrow(() -> new BusinessException(new ErrorMessage(HttpStatus.CONFLICT,
                         "Product not found", Collections.singletonList("The product with the id: "
-                        .concat(product_id).concat(" wasn't found")))));
+                        .concat(productId).concat(" wasn't found")))));
     }
 }

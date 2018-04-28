@@ -45,7 +45,7 @@ public class ErrorMessage implements Serializable {
         return status;
     }
 
-    public void setStatus(HttpStatus status) {
+    public void setStatus(final HttpStatus status) {
         this.status = status;
     }
 
@@ -53,7 +53,7 @@ public class ErrorMessage implements Serializable {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 
@@ -61,16 +61,16 @@ public class ErrorMessage implements Serializable {
         return errors;
     }
 
-    public void setErrors(List<String> errors) {
+    public void setErrors(final List<String> errors) {
         this.errors = errors;
     }
 
     @Override
     public String toString() {
-        return "ErrorMessage: {" +
-                "status: " + status +
-                ", message:'" + message + '\'' +
-                ", errors: {" + Arrays.toString(errors.toArray()) + "}" +
-                '}';
+        return "ErrorMessage: {"
+                + "status: " + status
+                + ", message:'" + message + '\''
+                + ", errors: {" + Arrays.toString(errors.toArray()) + "}"
+                + '}';
     }
 }

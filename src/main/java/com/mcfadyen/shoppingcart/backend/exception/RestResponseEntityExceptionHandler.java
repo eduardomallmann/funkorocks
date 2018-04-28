@@ -28,7 +28,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      * @return the error message inside a response entity.
      */
     @ExceptionHandler(value = BusinessException.class)
-    protected ResponseEntity<ErrorMessage> handleBusinessConflict(BusinessException ex, WebRequest request) {
+    protected ResponseEntity<ErrorMessage> handleBusinessConflict(final BusinessException ex,
+                                                                  final WebRequest request) {
         return new ResponseEntity<>(ex.getErrorMessage(), ex.getErrorMessage().getStatus());
     }
 
@@ -40,7 +41,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      * @return the exceptions in a error message standard inside a response entity
      */
     @ExceptionHandler(value = Exception.class)
-    protected ResponseEntity<ErrorMessage> handleExceptions(Exception ex, WebRequest request) {
+    protected ResponseEntity<ErrorMessage> handleExceptions(final Exception ex,
+                                                            final WebRequest request) {
         ErrorMessage errorMessage = new ErrorMessage();
         errorMessage.setMessage(ex.getMessage());
         errorMessage.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);

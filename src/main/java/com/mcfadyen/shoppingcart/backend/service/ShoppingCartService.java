@@ -33,7 +33,7 @@ public class ShoppingCartService {
      * @param session        the user session from the request
      * @param productService service of the product to be injected in the class
      */
-    public ShoppingCartService(HttpSession session, ProductService productService) {
+    public ShoppingCartService(final HttpSession session, final ProductService productService) {
         this.session = session;
         this.productService = productService;
     }
@@ -62,18 +62,18 @@ public class ShoppingCartService {
     /**
      * Method that add a commerceItem to the shoppingcart.
      *
-     * @param product_id product unique identification
+     * @param productId product unique identification
      * @param quantity   unit amount of the product
      * @return the CommerceItem created.
      * @throws BusinessException in case of price not found
      */
-    public CommerceItem addCommerceItem(final String product_id, final Integer quantity) throws BusinessException {
+    public CommerceItem addCommerceItem(final String productId, final Integer quantity) throws BusinessException {
         // instantiate the shoppingcart with the existent one
         ShoppingCart shoppingCart = this.findShoppingCart();
         // create the new CommerceItem
-        CommerceItem commerceItem = this.getCommerceItem(shoppingCart, product_id, quantity);
+        CommerceItem commerceItem = this.getCommerceItem(shoppingCart, productId, quantity);
         // removes the item from shoppingcart if it's already present
-        shoppingCart.getItems().stream().filter(item -> item.getProduct_id().equals(product_id)).findFirst()
+        shoppingCart.getItems().stream().filter(item -> item.getProduct_id().equals(productId)).findFirst()
                 .ifPresent(item -> shoppingCart.getItems().remove(item));
         // adds the new commerceitem to the shoppingcart
         shoppingCart.getItems().add(commerceItem);
@@ -114,28 +114,28 @@ public class ShoppingCartService {
      * updates it if found or creates a new one if not.
      *
      * @param shoppingCart the current shoppingcart
-     * @param product_id   product unique identifier
+     * @param productId   product unique identifier
      * @param quantity     quantity of the product for the commerceitem
      * @return a new or updated CommerceItem
      * @throws BusinessException if the product wasn't found
      */
-    private CommerceItem getCommerceItem(final ShoppingCart shoppingCart, final String product_id,
+    private CommerceItem getCommerceItem(final ShoppingCart shoppingCart, final String productId,
                                          final Integer quantity) throws BusinessException {
         // searches the product in the current shoppingcart and get its commerceitem if exists
         CommerceItem commerceItem = shoppingCart.getItems().stream()
-                .filter(item -> item.getProduct_id().equals(product_id))
+                .filter(item -> item.getProduct_id().equals(productId))
                 .findFirst().orElse(null);
         // verifies if a commerceitem for the product was found
         if (commerceItem == null) {
             // creates a new commerceItem in case of new product
-            commerceItem = new CommerceItem(String.valueOf(UUID.randomUUID()), product_id, quantity,
-                    this.productService.getProductPrice(product_id).multiply(BigDecimal.valueOf(quantity))
+            commerceItem = new CommerceItem(String.valueOf(UUID.randomUUID()), productId, quantity,
+                    this.productService.getProductPrice(productId).multiply(BigDecimal.valueOf(quantity))
                             .setScale(BIGDECIMAL_SCALE, BigDecimal.ROUND_HALF_EVEN));
         } else {
             // updates de quantity, sums the actual quantity with the new one
             commerceItem.setQuantity(commerceItem.getQuantity() + quantity);
             // updates the amount of hte commerce item
-            commerceItem.setAmount(this.productService.getProductPrice(product_id)
+            commerceItem.setAmount(this.productService.getProductPrice(productId)
                     .multiply(BigDecimal.valueOf(commerceItem.getQuantity()))
                     .setScale(BIGDECIMAL_SCALE, BigDecimal.ROUND_HALF_EVEN));
         }
@@ -148,7 +148,7 @@ public class ShoppingCartService {
      *
      * @param shoppingCart the object to be updated
      */
-    private void updateShoppingCartAmount(ShoppingCart shoppingCart) {
+    private void updateShoppingCartAmount(final ShoppingCart shoppingCart) {
         // empty the shoppingcart amount
         shoppingCart.setAmount(new BigDecimal(0));
         // calculates the shoppingcart amount

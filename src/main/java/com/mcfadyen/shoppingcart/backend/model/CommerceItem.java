@@ -36,7 +36,7 @@ public class CommerceItem implements Serializable {
      * @param quantity   quantity of the product
      * @param amount     total value of the product (quantity x product price)
      */
-    public CommerceItem(String id, String product_id, Integer quantity, BigDecimal amount) {
+    public CommerceItem(final String id, final String product_id, final Integer quantity, final BigDecimal amount) {
         this.id = id;
         this.product_id = product_id;
         this.quantity = quantity;
@@ -47,7 +47,7 @@ public class CommerceItem implements Serializable {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
     }
 
@@ -55,7 +55,7 @@ public class CommerceItem implements Serializable {
         return product_id;
     }
 
-    public void setProduct_id(String product_id) {
+    public void setProduct_id(final String product_id) {
         this.product_id = product_id;
     }
 
@@ -63,7 +63,7 @@ public class CommerceItem implements Serializable {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(final Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -71,19 +71,19 @@ public class CommerceItem implements Serializable {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(final BigDecimal amount) {
         this.amount = amount;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CommerceItem that = (CommerceItem) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(product_id, that.product_id) &&
-                Objects.equals(quantity, that.quantity) &&
-                Objects.equals(amount, that.amount);
+        return Objects.equals(id, that.id)
+                && Objects.equals(product_id, that.product_id)
+                && Objects.equals(quantity, that.quantity)
+                && Objects.equals(amount, that.amount);
     }
 
     @Override
@@ -94,11 +94,11 @@ public class CommerceItem implements Serializable {
 
     @Override
     public String toString() {
-        return "CommerceItem{" +
-                "id='" + id + '\'' +
-                ", product_id='" + product_id + '\'' +
-                ", quantity=" + quantity +
-                ", amount=" + amount +
-                '}';
+        return "CommerceItem{"
+                + "id='" + id + '\''
+                + ", product_id='" + product_id + '\''
+                + ", quantity=" + quantity
+                + ", amount=" + amount
+                + '}';
     }
 }

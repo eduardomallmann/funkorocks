@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Model class responsible for ShoppingCart objects.
@@ -35,7 +37,7 @@ public class ShoppingCart implements Serializable {
      * @param items  list of commerceitems in the shoppingcart
      * @param amount sum of all commerceitems amounts in the shoppingcart
      */
-    public ShoppingCart(List<CommerceItem> items, BigDecimal amount) {
+    public ShoppingCart(final List<CommerceItem> items, final BigDecimal amount) {
         this.items = items;
         this.amount = amount;
     }
@@ -44,7 +46,7 @@ public class ShoppingCart implements Serializable {
         return items;
     }
 
-    public void setItems(List<CommerceItem> items) {
+    public void setItems(final List<CommerceItem> items) {
         this.items = items;
     }
 
@@ -52,7 +54,30 @@ public class ShoppingCart implements Serializable {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(final BigDecimal amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShoppingCart that = (ShoppingCart) o;
+        return Objects.equals(items, that.items)
+                && Objects.equals(amount, that.amount);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(items, amount);
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingCart{"
+                + "items=" + Arrays.toString(items.toArray())
+                + ", amount=" + amount
+                + '}';
     }
 }

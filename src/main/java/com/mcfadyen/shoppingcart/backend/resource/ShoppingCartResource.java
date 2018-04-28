@@ -8,10 +8,16 @@ import com.mcfadyen.shoppingcart.backend.service.ShoppingCartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Class responsible for the endpoints of the {@link ShoppingCart} object.
@@ -32,7 +38,7 @@ public class ShoppingCartResource {
      * @param shoppingCartService service of the shoppingcart to be injected in the class
      * @since 0.0.1
      */
-    public ShoppingCartResource(ShoppingCartService shoppingCartService) {
+    public ShoppingCartResource(final ShoppingCartService shoppingCartService) {
         this.shoppingCartService = shoppingCartService;
     }
 
@@ -56,8 +62,8 @@ public class ShoppingCartResource {
      * @throws BusinessException in case of the product not found
      */
     @PostMapping(value = "/items", params = {"product_id", "quantity"})
-    public ResponseEntity<CommerceItem> shoppingcartItemsPost(@RequestParam("product_id") String product_id,
-                                                              @RequestParam("quantity") Integer quantity)
+    public ResponseEntity<CommerceItem> shoppingcartItemsPost(@RequestParam("product_id") final String product_id,
+                                                              @RequestParam("quantity") final Integer quantity)
             throws BusinessException {
         return new ResponseEntity<>(this.shoppingCartService.addCommerceItem(product_id, quantity), HttpStatus.OK);
     }
@@ -71,8 +77,8 @@ public class ShoppingCartResource {
      * @throws BusinessException in case of failure
      */
     @DeleteMapping("/items/{id}")
-    public ResponseEntity shoppingcartItemsIdDelete(@PathVariable("id") String id,
-                                                    @SessionAttribute("shoppingcart") ShoppingCart shoppingCart)
+    public ResponseEntity shoppingcartItemsIdDelete(@PathVariable("id") final String id,
+                                                    @SessionAttribute("shoppingcart") final ShoppingCart shoppingCart)
             throws BusinessException {
         // calls the service to remove the item
         Boolean result = this.shoppingCartService.removeCommerceItem(shoppingCart, id);

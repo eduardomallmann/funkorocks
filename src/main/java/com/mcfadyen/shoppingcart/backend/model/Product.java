@@ -36,7 +36,7 @@ public class Product implements Serializable {
      * @param image product image address
      * @param price product price
      */
-    public Product(String id, String name, String image, BigDecimal price) {
+    public Product(final String id, final String name, final String image, final BigDecimal price) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -47,7 +47,7 @@ public class Product implements Serializable {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
     }
 
@@ -55,7 +55,7 @@ public class Product implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -63,7 +63,7 @@ public class Product implements Serializable {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(final String image) {
         this.image = image;
     }
 
@@ -71,19 +71,19 @@ public class Product implements Serializable {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(final BigDecimal price) {
         this.price = price;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id) &&
-                Objects.equals(name, product.name) &&
-                Objects.equals(image, product.image) &&
-                Objects.equals(price, product.price);
+        return Objects.equals(id, product.id)
+                && Objects.equals(name, product.name)
+                && Objects.equals(image, product.image)
+                && Objects.equals(price, product.price);
     }
 
     @Override
@@ -94,11 +94,11 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", image='" + image + '\'' +
-                ", price=" + price +
-                '}';
+        return "Product{"
+                + "id='" + id + '\''
+                + ", name='" + name + '\''
+                + ", image='" + image + '\''
+                + ", price=" + price
+                + '}';
     }
 }

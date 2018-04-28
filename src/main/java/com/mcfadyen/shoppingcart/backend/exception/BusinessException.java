@@ -37,7 +37,7 @@ public class BusinessException extends Exception {
         return errorMessage;
     }
 
-    public void setErrorMessage(ErrorMessage errorMessage) {
+    public void setErrorMessage(final ErrorMessage errorMessage) {
         this.errorMessage = errorMessage;
     }
 }

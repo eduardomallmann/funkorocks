@@ -29,7 +29,7 @@ public class ProductResource {
      * @param productService service of the product to be injected in the class
      * @since 0.0.1
      */
-    public ProductResource(ProductService productService) {
+    public ProductResource(final ProductService productService) {
         this.productService = productService;
     }
 
