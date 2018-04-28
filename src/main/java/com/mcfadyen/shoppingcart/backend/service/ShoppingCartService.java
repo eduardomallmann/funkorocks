@@ -4,7 +4,6 @@ import com.mcfadyen.shoppingcart.backend.model.CommerceItem;
 import com.mcfadyen.shoppingcart.backend.model.ShoppingCart;
 import org.springframework.stereotype.Service;
 
-import javax.el.ELException;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -92,10 +91,10 @@ public class ShoppingCartService {
      * @param shoppingCart the shoppingcart that should have the item removed
      * @return boolean informing the success of the operation
      */
-    public boolean removeCommerceItem(final ShoppingCart shoppingCart, final String itemId) {
+    public boolean removeCommerceItem(final ShoppingCart shoppingCart, final String itemId) throws Exception {
         // find the item to be removed
         CommerceItem item = shoppingCart.getItems().stream().filter(i -> i.getId().equals(itemId)).findFirst()
-                .orElseThrow(ELException::new);
+                .orElseThrow(Exception::new);
         // remove the item and keeps the result of the operation
         boolean result = shoppingCart.getItems().remove(item);
         // updates the shoppingcart amount
