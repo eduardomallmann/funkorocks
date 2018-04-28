@@ -2,7 +2,6 @@ package com.mcfadyen.shoppingcart.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.List;
  * @author Eduardo Mallmann
  * @since 0.0.1
  */
-@XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ShoppingCart implements Serializable {
 

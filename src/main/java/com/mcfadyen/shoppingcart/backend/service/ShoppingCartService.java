@@ -40,10 +40,7 @@ public class ShoppingCartService {
 
     /**
      * Method that finds the shoppingcart by the user session.
-     * <p>
-     * <p>
-     * In case of new session, a new shoppingcart is instantiated.
-     * </p>
+     * <p> In case of new session, a new shoppingcart is instantiated.</p>
      *
      * @return a shopping cart object
      */

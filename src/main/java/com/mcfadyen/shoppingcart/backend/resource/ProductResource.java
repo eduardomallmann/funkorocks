@@ -12,7 +12,6 @@ import java.util.List;
 
 /**
  * Class responsible for the endpoints of the {@link Product} object.
- * <p>
  * <p>Uses the {@link ProductService} to access the business logic of the object</p>
  *
  * @author Eduardo Mallmann

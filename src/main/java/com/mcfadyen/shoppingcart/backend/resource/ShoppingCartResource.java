@@ -15,7 +15,6 @@ import java.util.List;
 
 /**
  * Class responsible for the endpoints of the {@link ShoppingCart} object.
- * <p>
  * <p>Uses the {@link ShoppingCartService} to access the business logic of the object</p>
  *
  * @author Eduardo Mallmann
