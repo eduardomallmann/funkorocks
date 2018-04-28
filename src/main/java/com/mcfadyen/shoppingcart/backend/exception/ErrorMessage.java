@@ -3,6 +3,7 @@ package com.mcfadyen.shoppingcart.backend.exception;
 import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -62,5 +63,14 @@ public class ErrorMessage implements Serializable {
 
     public void setErrors(List<String> errors) {
         this.errors = errors;
+    }
+
+    @Override
+    public String toString() {
+        return "ErrorMessage: {" +
+                "status: " + status +
+                ", message:'" + message + '\'' +
+                ", errors: {" + Arrays.toString(errors.toArray()) + "}" +
+                '}';
     }
 }

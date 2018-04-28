@@ -77,12 +77,10 @@ public class ShoppingCartResourceIT {
     @Test
     public void whenShoppingcartItemsIdDelete_thenShouldGetException() {
         // given
-        ResponseEntity<Void> result = restTemplate
-                .exchange("/shoppingcart/items/1", HttpMethod.DELETE, null, Void.class);
+        ResponseEntity<Object> result = restTemplate
+                .exchange("/shoppingcart/items/1", HttpMethod.DELETE, null, Object.class);
         // then
-        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(result.getBody()).isNull();
-        assertThat(result.getHeaders().getContentType()).hasToString(MediaType.APPLICATION_JSON_UTF8_VALUE);
     }
 
 
