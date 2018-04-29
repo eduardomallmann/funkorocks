@@ -3,12 +3,13 @@ apiVersion: v1
 metadata:
   name: shoppingcart
   labels:
-    run: shoppingcart
+    app: shoppingcart
 spec:
   type: LoadBalancer
   selector:
-    run: shoppingcart
+    app: shoppingcart
   ports:
     - protocol: TCP
       port: 80
-      name: http
+      targetPort: 8080
+      nodePort: 30000

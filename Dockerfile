@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:8-jre-slim
 
 ENTRYPOINT ["/usr/bin/java", "-jar", "/shoppingcart.jar"]
 

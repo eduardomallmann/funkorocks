@@ -17,7 +17,7 @@ spring:
 
 # Server configuration
 server:
-  port: 80
+  port: 8080
   servlet:
   # Configuring server session timeout
     session:
