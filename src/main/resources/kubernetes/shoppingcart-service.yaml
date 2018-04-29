@@ -1,11 +1,14 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: "shoppingcart"
+  name: shoppingcart
+  labels:
+    run: shoppingcart
 spec:
+  type: LoadBalancer
   selector:
-    app: "shoppingcart"
+    run: shoppingcart
   ports:
-    - protocol: "TCP"
-      port: 8080
-      targetPort: 8080
+    - protocol: TCP
+      port: 80
+      name: http
