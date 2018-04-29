@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: shoppingcart
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: shoppingcart
+        track: stable
+        version: 0.0.1
+    spec:
+      containers:
+        - name: shoppingcart-backend
+          image: "gcr.io/funkorocks-202213/shoppingcart/backend:0.0.1-SNAPSHOT"
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: health
+              containerPort: 8081
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 30
+            timeoutSeconds: 1

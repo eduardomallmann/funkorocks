@@ -22,9 +22,3 @@ server:
   # Configuring server session timeout
     session:
       timeout: 7m
-
-# Configuring actuator management
-management:
-  server:
-    port: 8081
-    address: 127.0.0.1
