@@ -44,7 +44,6 @@
     <scm>
         <connection>${scm.url}</connection>
         <developerConnection>${scm.url}</developerConnection>
-        <tag>0.0.1</tag>
     </scm>
 
     <dependencies>
