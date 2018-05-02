@@ -13,6 +13,6 @@ spec:
     spec:
       containers:
         - name: shoppingcart-backend
-          image: gcr.io/funkorocks-202213/shoppingcart/backend:0.0.1-SNAPSHOT
+          image: gcr.io/funkorocks-202213/shoppingcart/backend:0.0.1
           ports:
             - containerPort: 8080
