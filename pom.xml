@@ -36,8 +36,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <surefire.version>2.19.1</surefire.version>
-        <docker.image.prefix>gcr.io/funkorocks-202213/shoppingcart</docker.image.prefix>
-        <scm.url>scm:git:https://bitbucket.org/eduardomallmannprojects/funko-rocks-backend</scm.url>
+        <docker.image.prefix>eduardomallmann/funkorocks-backend</docker.image.prefix>
+        <scm.url>scm:git:https://github.com/eduardomallmann/funkorocks</scm.url>
     </properties>
 
     <scm>
