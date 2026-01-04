@@ -8,6 +8,9 @@ import com.mcfadyen.shoppingcart.backend.service.ShoppingCartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,11 +48,13 @@ public class ShoppingCartResource {
     /**
      * Method responsible to recover the current shoppingcart if exists or create a new one.
      *
+     * @param jwt JWT token of the authenticated user
      * @return ShoppingCart found
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ShoppingCart> shoppingcartGet() {
-        return new ResponseEntity<>(this.shoppingCartService.findShoppingCart(), HttpStatus.OK);
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<ShoppingCart> shoppingcartGet(@AuthenticationPrincipal Jwt jwt) {
+        return new ResponseEntity<>(this.shoppingCartService.findShoppingCart(jwt), HttpStatus.OK);
     }
 
     /**
@@ -63,9 +68,10 @@ public class ShoppingCartResource {
      */
     @PostMapping(value = "/items", params = {"product_id", "quantity"})
     public ResponseEntity<CommerceItem> shoppingcartItemsPost(@RequestParam("product_id") final String product_id,
-                                                              @RequestParam("quantity") final Integer quantity)
+                                                              @RequestParam("quantity") final Integer quantity,
+                                                              @AuthenticationPrincipal Jwt jwt)
             throws BusinessException {
-        return new ResponseEntity<>(this.shoppingCartService.addCommerceItem(product_id, quantity), HttpStatus.OK);
+        return new ResponseEntity<>(this.shoppingCartService.addCommerceItem(jwt, product_id, quantity), HttpStatus.OK);
     }
 
     /**
@@ -78,8 +84,12 @@ public class ShoppingCartResource {
      */
     @DeleteMapping("/items/{id}")
     public ResponseEntity shoppingcartItemsIdDelete(@PathVariable("id") final String id,
-                                                    @SessionAttribute("shoppingcart") final ShoppingCart shoppingCart)
+                                                    @AuthenticationPrincipal Jwt jwt)
             throws BusinessException {
+        
+        // Get user's shopping cart
+        ShoppingCart shoppingCart = this.shoppingCartService.findShoppingCart(jwt);
+        
         // calls the service to remove the item
         var result = this.shoppingCartService.removeCommerceItem(shoppingCart, id);
         // verifies if it's succeed

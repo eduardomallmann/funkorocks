@@ -30,6 +30,30 @@ spring:
     jdbc:
       initialize-schema: always
     timeout: 30m
+    cookie:
+      name: JSESSIONID
+      http-only: true
+      secure: false  # Set to true in production
+      same-site: lax
+  
+  # Security configuration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/funkorocks
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8081/realms/funkorocks
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: shoppingcart-service
+            client-secret: ${KEYCLOAK_CLIENT_SECRET:shoppingcart-secret-2024}
+            scope: openid,profile,email,roles,funkorocks.read,funkorocks.write
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/keycloak
 
 # Server configuration
 server:

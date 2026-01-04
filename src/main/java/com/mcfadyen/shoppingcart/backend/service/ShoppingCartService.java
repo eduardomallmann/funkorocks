@@ -5,9 +5,10 @@ import com.mcfadyen.shoppingcart.backend.exception.ErrorMessage;
 import com.mcfadyen.shoppingcart.backend.model.CommerceItem;
 import com.mcfadyen.shoppingcart.backend.model.ShoppingCart;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.UUID;
@@ -39,42 +40,52 @@ public class ShoppingCartService {
     }
 
     /**
-     * Method that finds the shoppingcart by the user session.
-     * <p> In case of new session, a new shoppingcart is instantiated.</p>
+     * Method that finds the shoppingcart by the user JWT or session.
+     * <p> Uses JWT user ID for authenticated users, session for anonymous.</p>
      *
+     * @param jwt JWT token of authenticated user (null for anonymous)
      * @return a shopping cart object
      */
-    public ShoppingCart findShoppingCart() {
-        // verifies if it's a new session
-        if (session.isNew()) {
-            //instantiate a new empty shoppingcart
-            ShoppingCart shoppingCart = new ShoppingCart();
-            //set the shoppingcart to the session
-            session.setAttribute(ATTRIBUTE_SHOPPINGCART_KEY, shoppingCart);
-            // return the new empty shoppingcart
-            return shoppingCart;
-        } else {
-            // return the existent shoppingcart from the session
-            ShoppingCart existingCart = (ShoppingCart) session.getAttribute(ATTRIBUTE_SHOPPINGCART_KEY);
+    public ShoppingCart findShoppingCart(Jwt jwt) {
+        String cartKey;
+        
+        if (jwt != null) {
+            // Authenticated user - use JWT subject
+            String userId = jwt.getSubject();
+            cartKey = "shoppingcart_" + userId;
+            
+            // Try to get existing cart
+            ShoppingCart existingCart = (ShoppingCart) session.getAttribute(cartKey);
             if (existingCart == null) {
                 existingCart = new ShoppingCart();
-                session.setAttribute(ATTRIBUTE_SHOPPINGCART_KEY, existingCart);
+                session.setAttribute(cartKey, existingCart);
             }
             return existingCart;
+        } else {
+            // Anonymous user - use session-based cart
+            cartKey = ATTRIBUTE_SHOPPINGCART_KEY;
+            
+            ShoppingCart anonymousCart = (ShoppingCart) session.getAttribute(cartKey);
+            if (anonymousCart == null) {
+                anonymousCart = new ShoppingCart();
+                session.setAttribute(cartKey, anonymousCart);
+            }
+            return anonymousCart;
         }
     }
 
     /**
-     * Method that add a commerceItem to the shoppingcart.
+     * Method that add a commerceItem to shoppingcart.
      *
+     * @param jwt JWT token of authenticated user (null for anonymous)
      * @param productId product unique identification
      * @param quantity   unit amount of the product
      * @return the CommerceItem created.
      * @throws BusinessException in case of price not found
      */
-    public CommerceItem addCommerceItem(final String productId, final Integer quantity) throws BusinessException {
+    public CommerceItem addCommerceItem(final Jwt jwt, final String productId, final Integer quantity) throws BusinessException {
         // instantiate the shoppingcart with the existent one
-        ShoppingCart shoppingCart = this.findShoppingCart();
+        ShoppingCart shoppingCart = this.findShoppingCart(jwt);
         // create the new CommerceItem
         CommerceItem commerceItem = this.getCommerceItem(shoppingCart, productId, quantity);
         // removes the item from shoppingcart if it's already present
@@ -85,7 +96,8 @@ public class ShoppingCartService {
         // updates the shoppingcart amount
         this.updateShoppingCartAmount(shoppingCart);
         // updates the shoppingcart in the session
-        session.setAttribute(ATTRIBUTE_SHOPPINGCART_KEY, shoppingCart);
+        String cartKey = jwt != null ? "shoppingcart_" + jwt.getSubject() : ATTRIBUTE_SHOPPINGCART_KEY;
+        session.setAttribute(cartKey, shoppingCart);
         // returns the commerceitem created
         return commerceItem;
     }
