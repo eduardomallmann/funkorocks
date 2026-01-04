@@ -248,6 +248,13 @@ curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
 -- Existing data will be automatically migrated
 -- New tables: products, commerce_items, shopping_carts, spring_session_tables
 ```
+6. **Architecture**: Mixed reactive/traditional → Consistent traditional MVC
+
+### Database Migration
+```sql
+-- Existing data will be automatically migrated
+-- New tables: products, commerce_items, shopping_carts, spring_session_tables
+```
 
 ### Production Environment
 - **HTTPS Required**: Set `secure: true` for production cookies

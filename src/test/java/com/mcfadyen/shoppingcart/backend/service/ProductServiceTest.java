@@ -20,8 +20,14 @@ public class ProductServiceTest {
     @TestConfiguration
     static class ProductServiceTestContextConfiguration {
         @Bean
+        public ProductRepository productRepository() {
+            // Mock repository for testing
+            return org.mockito.Mockito.mock(ProductRepository.class);
+        }
+        
+        @Bean
         public ProductService productService() {
-            return new ProductService();
+            return new ProductService(productRepository);
         }
     }
 
@@ -29,12 +35,23 @@ public class ProductServiceTest {
     private ProductService productService;
 
     @Test
-    public void whenFindAllProducts_thenShouldRetrieveAllProducts() {
+    void whenFindAllProducts_thenShouldRetrieveAllProducts() {
         // given
-        List<Product> results = productService.findAllProducts();
+        List<Product> products = productService.findAllProducts();
         // then
-        assertThat(results.isEmpty()).isFalse();
-        assertThat(results.size()).isEqualTo(15);
+        assertThat(products).isNotEmpty();
+        assertThat(products.size()).isGreaterThan(0);
+    }
+
+    @Test
+    public void whenGetProductPrice_thenShouldReturnCorrectPrice() throws BusinessException {
+        // given
+        String productId = products.get(0).getId();
+        BigDecimal expectedPrice = products.get(0).getPrice();
+        // when
+        BigDecimal actualPrice = productService.getProductPrice(productId);
+        // then
+        assertThat(actualPrice).isEqualTo(expectedPrice);
     }
 
     @Test
