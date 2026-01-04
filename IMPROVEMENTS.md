@@ -241,6 +241,33 @@ curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
 3. **Security**: No security → Keycloak OIDC integration
 4. **Testing**: Basic tests → Comprehensive test coverage
 5. **Deployment**: Basic Docker → Optimized containers with probes
+6. **Architecture**: Mixed reactive/traditional → Consistent traditional MVC
+
+### Database Migration
+```sql
+-- Existing data will be automatically migrated
+-- New tables: products, commerce_items, shopping_carts, spring_session_tables
+```
+
+### Production Environment
+- **HTTPS Required**: Set `secure: true` for production cookies
+- **Proper CORS**: Configure specific frontend domains only
+- **Resource Scaling**: Configured with limits and requests
+- **Health Monitoring**: Liveness and readiness probes configured
+- **Secret Management**: Use Kubernetes secrets for sensitive data
+
+### Authentication Flow
+1. **Login**: OAuth2 authorization code flow with Keycloak
+2. **Token Storage**: HTTP-only cookies with 30-minute expiration
+3. **Session Sync**: User ID-based cart keys
+4. **Single Logout**: Full SLO support with Keycloak integration
+5. **Authorization**: Role-based access (CUSTOMER, ADMINISTRATOR)
+
+### API Security
+- **Public Endpoints**: `/products/**`, `/actuator/health/**`
+- **Customer Endpoints**: `/shoppingcart/**` (requires CUSTOMER role)
+- **Admin Endpoints**: `/admin/**` (requires ADMINISTRATOR role)
+- **JWT Claims**: customerType, favoriteArtists, preferredGenres, totalSpent
 
 ### Database Migration
 ```sql
