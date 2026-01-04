@@ -2,6 +2,7 @@ package com.mcfadyen.shoppingcart.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -12,15 +13,29 @@ import java.util.Objects;
  * @author Eduardo Mallmann
  * @since 0.0.1
  */
+@Entity
+@Table(name = "commerce_items")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CommerceItem implements Serializable {
 
     private static final long serialVersionUID = 5668623572369327551L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+    
+    @Column(name = "product_id", nullable = false)
     private String product_id;
+    
+    @Column(nullable = false)
     private Integer quantity;
+    
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "shopping_cart_id", nullable = false)
+    private ShoppingCart shoppingCart;
 
     /**
      * Main empty constructor.

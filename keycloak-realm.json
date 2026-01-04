@@ -1,0 +1,446 @@
+{
+  "id": "funkorocks",
+  "realm": "funkorocks",
+  "displayName": "Funko Rocks Shopping",
+  "displayNameHtml": "<div class=\"kc-logo-text\"><span>Funko Rocks</span></div>",
+  "enabled": true,
+  "registrationAllowed": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": true,
+  "bruteForceProtected": true,
+  "permanentLockout": false,
+  "maxFailureWaitSeconds": 900,
+  "minimumQuickLoginWaitSeconds": 60,
+  "waitIncrementSeconds": 60,
+  "quickLoginCheckMilliSeconds": 1000,
+  "maxDeltaTimeSeconds": 43200,
+  "failureFactor": 30,
+  "browserFlow": "browser",
+  "registrationFlow": "registration",
+  "directGrantFlow": "direct grant",
+  "resetCredentialsFlow": "reset credentials",
+  "clientAuthenticationFlow": "clients",
+  "dockerAuthenticationFlow": "docker auth",
+  "attributes": {
+    "cibaBackchannelLogoutSessionRequired": "false",
+    "cibaAuthRequestedUserHint": "login_hint",
+    "cibaGrantLifetime": "86400",
+    "cibaPollInterval": "5",
+    "oauth2DeviceCodeLifespan": "600",
+    "oauth2DevicePollingInterval": "5",
+    "parRequestUriLifespan": "60",
+    "clientOfflineSessionMaxLifespan": "0",
+    "clientOfflineSessionIdleTimeout": "0",
+    "clientSessionIdleTimeout": "0",
+    "clientSessionMaxLifespan": "0",
+    "offlineSessionMaxLifespanEnabled": "false",
+    "offlineSessionMaxLifespan": "2592000",
+    "ssoSessionIdleTimeout": "1800",
+    "ssoSessionMaxLifespan": "36000",
+    "ssoSessionIdleTimeoutRememberMe": "0",
+    "ssoSessionMaxLifespanRememberMe": "0",
+    "userActionLifespan": "300",
+    "userActionAuthenticators": [],
+    "defaultLocale": "en",
+    "internationalizationEnabled": true,
+    "supportedLocales": ["en", "es", "fr", "de", "pt"]
+  },
+  "roles": {
+    "client": {
+      "shoppingcart-service": [
+        {
+          "id": "77a6a3a6-c85a-4b6d-8a5b-10e1e5d4e2f1",
+          "name": "CUSTOMER",
+          "description": "Shopping customer with cart access",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "shoppingcart-service"
+        },
+        {
+          "id": "88b7b4b7-d96a-4c7e-9f1b-11e2e5d4e2f2",
+          "name": "ADMINISTRATOR",
+          "description": "Store administrator with full access",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "shoppingcart-service"
+        }
+      ]
+    },
+    "realm": [
+      {
+        "id": "99c8a3a8-d97b-4d8e-a0f6-12e3e5d4e2f3",
+        "name": "CUSTOMER",
+        "description": "Standard customer role",
+        "composite": false,
+        "clientRole": false
+      },
+      {
+        "id": "00d9a4b9-e08c-4f9e-b1f7-13e4e5d4e2f4",
+        "name": "ADMINISTRATOR",
+        "description": "System administrator",
+        "composite": false,
+        "clientRole": false
+      }
+    ]
+  },
+  "clients": [
+    {
+      "id": "11b2c2c2-b7e3-4c8d-9b5a-14e5e5d4e2f5",
+      "clientId": "shoppingcart-service",
+      "name": "Shopping Cart Service",
+      "description": "Funko Rocks Shopping Cart API Client",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "shoppingcart-secret-2024",
+      "redirectUris": [
+        "http://localhost:8080/*",
+        "http://localhost:3000/*"
+      ],
+      "webOrigins": [
+        "http://localhost:8080",
+        "http://localhost:3000"
+      ],
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": false,
+      "publicClient": false,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "saml.assertion.signature": "RSA_SHA256",
+        "saml.multivalued.attributes": "none",
+        "saml.force.post.binding": "false",
+        "saml.server.signature": "RSA_SHA256",
+        "saml.server.signature.keyinfo": "RSA_SHA256",
+        "exclude.session.state.from.auth.response": "false",
+        "oidc.ciba.grants.enabled": "false",
+        "backchannel.logout.revoke.offline.tokens": "false",
+        "display.on.consent.screen": "false",
+        "oauth2.device.authorization.grant.enabled": "true",
+        "client_credentials.use_refresh_token": "false",
+        "backchannel.logout.session.required": "true",
+        "oauth2.device.polling.interval": "5"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": false,
+      "nodeReRegistrationEnabled": false,
+      "defaultClientScopes": [
+        "role_list",
+        "web-origins",
+        "funkorocks.read",
+        "funkorocks.write",
+        "funkorocks.profile",
+        "funkorocks.orders"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ],
+      "protocolMappers": [
+        {
+          "id": "33a3a3a3-c89d-4d7e-8a6c-16e6e5d4e2f6",
+          "name": "customerType",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "customerType",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "customerType",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "44b4b4b4-d98e-4e8f-b2g7-17e7e5d4e2f7",
+          "name": "favoriteArtists",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-array-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "multivalued": "true",
+            "user.attribute": "favoriteArtists",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "favoriteArtists",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "55c5c5c5-ea9f-4f9g-c3h8-18e8e5d4e2f8",
+          "name": "preferredGenres",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-array-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "multivalued": "true",
+            "user.attribute": "preferredGenres",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "preferredGenres",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "66d6d6d6-fb0g-5g0h-d4i9-19e9e5d4e2f9",
+          "name": "totalSpentAmount",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "totalSpentAmount",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "totalSpentAmount",
+            "jsonType.label": "Double"
+          }
+        },
+        {
+          "id": "77e7e7e7-gc1h-6h1i-e5j0-10f0e5d4e2fa",
+          "name": "totalOrdersCount",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "totalOrdersCount",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "totalOrdersCount",
+            "jsonType.label": "Integer"
+          }
+        }
+      ]
+    }
+  ],
+  "clientScopes": [
+    {
+      "id": "22f3f3f3-dd4g-7g2h-f6i1-11f1e5d4e2fb",
+      "name": "funkorocks.read",
+      "description": "Read access to shopping cart and product data",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "Allow reading your shopping cart and product information"
+      }
+    },
+    {
+      "id": "33g4g4g4-ee5h-8h3i-g7j2-12f2e5d4e2fc",
+      "name": "funkorocks.write",
+      "description": "Write access to shopping cart operations",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "Allow modifying your shopping cart"
+      }
+    },
+    {
+      "id": "44h5h5h5-ff6i-9i4j-h8k3-13f3e5d4e2fd",
+      "name": "funkorocks.profile",
+      "description": "Access to user profile and preferences",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "Allow access to your profile and preferences"
+      }
+    },
+    {
+      "id": "55i6i6i6-gg7j-0j5k-i9l4-14f4e5d4e2fe",
+      "name": "funkorocks.orders",
+      "description": "Access to order history and information",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "Allow access to your order history"
+      }
+    }
+  ],
+  "defaultDefaultClientScopes": [
+    "role_list",
+    "web-origins",
+    "funkorocks.read",
+    "funkorocks.write",
+    "funkorocks.profile"
+  ],
+  "users": [
+    {
+      "id": "11j7j7j7-hh8k-1k6l-j5m5-15f5e5d4e2ff",
+      "createdTimestamp": 1672531200000,
+      "username": "customer@funkorocks.com",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Rock",
+      "lastName": "Fan",
+      "email": "customer@funkorocks.com",
+      "attributes": {
+        "customerType": "PREMIUM",
+        "favoriteArtists": ["Jimi Hendrix", "Lemmy Kilmister", "Kurt Cobain"],
+        "preferredGenres": ["Rock", "Metal", "Alternative"],
+        "totalSpentAmount": 299.97,
+        "totalOrdersCount": 3
+      },
+      "credentials": [
+        {
+          "id": "22k8k8k8-ii9l-2k7m-k6n6-16f6e5d4e200",
+          "type": "password",
+          "createdDate": 1672531200000,
+          "secretData": "{\"value\":\"customer123\",\"salt\":\"some-salt-value\"}",
+          "algorithm": "pbkdf2-sha256",
+          "hashIterations": 27500,
+          "userLabel": "Password"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["CUSTOMER"],
+      "clientRoles": {
+        "shoppingcart-service": ["CUSTOMER"]
+      }
+    },
+    {
+      "id": "33l9l9l9-jj0m-3l8n-l7o7-17f7e5d4e201",
+      "createdTimestamp": 1672531200000,
+      "username": "admin@funkorocks.com",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "User",
+      "email": "admin@funkorocks.com",
+      "attributes": {
+        "customerType": "ADMINISTRATOR",
+        "favoriteArtists": ["All"],
+        "preferredGenres": ["Rock", "Metal", "Punk", "Alternative"],
+        "totalSpentAmount": 0,
+        "totalOrdersCount": 0
+      },
+      "credentials": [
+        {
+          "id": "44m0m0m0-kk1n-4m9o-m8p8-18f8e5d4e202",
+          "type": "password",
+          "createdDate": 1672531200000,
+          "secretData": "{\"value\":\"admin123\",\"salt\":\"admin-salt-value\"}",
+          "algorithm": "pbkdf2-sha256",
+          "hashIterations": 27500,
+          "userLabel": "Password"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["CUSTOMER", "ADMINISTRATOR"],
+      "clientRoles": {
+        "shoppingcart-service": ["CUSTOMER", "ADMINISTRATOR"]
+      }
+    }
+  ],
+  "keycloakVersion": "23.0.0",
+  "userManagedAccessAllowed": false,
+  "loginTheme": "keycloak",
+  "accountTheme": "keycloak",
+  "adminTheme": "keycloak",
+  "emailTheme": "keycloak",
+  "internationalizationEnabled": true,
+  "supportedLocales": ["en", "es", "fr", "de", "pt"],
+  "browserSecurityHeaders": {
+    "contentSecurityPolicyReportOnly": false,
+    "xContentTypeOptions": "nosniff",
+    "xFrameOptions": "DENY",
+    "xRobotsTag": "NONE",
+    "xXSSProtection": "1; mode=block",
+    "strictTransportSecurity": "false",
+    "contentSecurityPolicy": ""
+  },
+  "eventsEnabled": true,
+  "eventsListeners": ["jboss-logging"],
+  "enabledEventTypes": ["LOGIN", "LOGIN_ERROR", "LOGOUT", "UPDATE_PASSWORD", "UPDATE_TOTP", "VERIFY_EMAIL", "REVOKE_GRANT", "CLIENT_LOGIN", "CLIENT_REGISTER", "CLIENT_UPDATE", "CLIENT_INITIATED_ACCOUNT_LINK", "RESET_PASSWORD", "IMPERSONATION", "FEDERATED_IDENTITY_LINK", "REMOVE_FEDERATED_IDENTITY", "CUSTOM_REQUIRED_ACTION", "TOKEN_EXCHANGE", "PERMISSION_TOKEN", "OAUTH2_DEVICE_AUTHORIZED", "EXECUTE_ACTIONS", "ADMIN_EVENT", "UPDATE_EMAIL", "UPDATE_PROFILE", "USER_DISABLED"],
+  "adminEventsEnabled": true,
+  "adminEventsDetailsEnabled": true,
+  "passwordPolicy": "length(8) and upperCase(1) and lowerCase(1) and digits(1) and specialChars(1)",
+  "otpPolicy": {
+    "type": "totp",
+    "algorithm": "HmacSHA1",
+    "digits": 6,
+    "lookAheadWindow": 1,
+    "period": 30,
+    "initialCounter": 0
+  },
+  "webAuthnPolicy": {
+    "rpEntityName": "Funko Rocks",
+    "signatureAlgorithms": ["ES256"],
+    "attestationConveyancePreference": "not specified",
+    "authenticatorAttachment": "not specified",
+    "userVerificationRequirement": "not specified",
+    "residentKeyRequirement": "not specified",
+    "requireResidentKey": "false",
+    "timeout": 0,
+    "createTimeout": 0
+  },
+  "smtpServer": {},
+  "identityProviders": [],
+  "identityProviderMappers": [],
+  "browserFlow": {
+    "id": "e277d2a2-6292-4f66-8c04-77b6b13b5f2b",
+    "alias": "browser",
+    "description": "browser based authentication",
+    "providerId": "basic-flow",
+    "topLevel": true,
+    "builtIn": true,
+    "authenticationExecutions": [
+      {
+        "authenticator": "auth-cookie",
+        "authenticatorFlow": false,
+        "requirement": "ALTERNATIVE",
+        "priority": 10,
+        "autheticatorFlow": false,
+        "userSetupAllowed": false
+      },
+      {
+        "authenticator": "identity-provider-redirector",
+        "authenticatorFlow": false,
+        "requirement": "ALTERNATIVE",
+        "priority": 25,
+        "autheticatorFlow": false,
+        "userSetupAllowed": false
+      },
+      {
+        "authenticator": "auth-spnego",
+        "authenticatorFlow": false,
+        "requirement": "DISABLED",
+        "priority": 20,
+        "autheticatorFlow": false,
+        "userSetupAllowed": false
+      },
+      {
+        "authenticator": "auth-username-password-form",
+        "authenticatorFlow": false,
+        "requirement": "ALTERNATIVE",
+        "priority": 20,
+        "autheticatorFlow": false,
+        "userSetupAllowed": false
+      },
+      {
+        "authenticator": "auth-otp-form",
+        "authenticatorFlow": false,
+        "requirement": "ALTERNATIVE",
+        "priority": 30,
+        "autheticatorFlow": false,
+        "userSetupAllowed": false
+      }
+    ]
+  }
+}

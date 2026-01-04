@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductResource {
 
-    private ProductService productService;
+    private final ProductService productService;
 
     /**
      * Main constructor responsible to inject the services.

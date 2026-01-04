@@ -9,11 +9,27 @@ info:
 spring:
   application:
     name: shoppingcart-backend
-# Configuring spring session
+  # Database configuration
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  # JPA configuration
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+  # Configuring spring session
   session:
     store-type: jdbc
     jdbc:
       initialize-schema: always
+    timeout: 30m
 
 # Server configuration
 server:

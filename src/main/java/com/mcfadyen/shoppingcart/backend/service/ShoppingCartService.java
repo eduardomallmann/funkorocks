@@ -55,7 +55,12 @@ public class ShoppingCartService {
             return shoppingCart;
         } else {
             // return the existent shoppingcart from the session
-            return (ShoppingCart) session.getAttribute(ATTRIBUTE_SHOPPINGCART_KEY);
+            ShoppingCart existingCart = (ShoppingCart) session.getAttribute(ATTRIBUTE_SHOPPINGCART_KEY);
+            if (existingCart == null) {
+                existingCart = new ShoppingCart();
+                session.setAttribute(ATTRIBUTE_SHOPPINGCART_KEY, existingCart);
+            }
+            return existingCart;
         }
     }
 

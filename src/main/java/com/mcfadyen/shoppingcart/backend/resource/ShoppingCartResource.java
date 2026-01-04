@@ -30,7 +30,7 @@ import java.util.Collections;
 @RequestMapping("/shoppingcart")
 public class ShoppingCartResource {
 
-    private ShoppingCartService shoppingCartService;
+    private final ShoppingCartService shoppingCartService;
 
     /**
      * Main constructor responsible to inject the services.
@@ -81,8 +81,8 @@ public class ShoppingCartResource {
                                                     @SessionAttribute("shoppingcart") final ShoppingCart shoppingCart)
             throws BusinessException {
         // calls the service to remove the item
-        Boolean result = this.shoppingCartService.removeCommerceItem(shoppingCart, id);
-        // verifeis if it's succeed
+        var result = this.shoppingCartService.removeCommerceItem(shoppingCart, id);
+        // verifies if it's succeed
         if (result) {
             // return success
             return new ResponseEntity<>(HttpStatus.OK);
